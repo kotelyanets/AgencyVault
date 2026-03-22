@@ -3,6 +3,7 @@ import type { DefaultSession } from "next-auth";
 
 declare module "next-auth" {
   interface Session {
+    workspacePlan: string | null;
     user: DefaultSession["user"] & {
       id: string;
       workspaceId: string;
@@ -16,6 +17,7 @@ declare module "next-auth" {
     workspaceId: string;
     role: Role;
     isSuperAdmin: boolean;
+    workspacePlan: string | null;
   }
 }
 
@@ -25,5 +27,6 @@ declare module "next-auth/jwt" {
     workspaceId: string;
     role: Role;
     isSuperAdmin: boolean;
+    workspacePlan: string | null;
   }
 }

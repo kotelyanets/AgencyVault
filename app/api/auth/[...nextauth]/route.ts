@@ -17,7 +17,14 @@ export const authOptions: NextAuthOptions = {
         }
 
         const user = await prisma.user.findUnique({
-          where: { email: credentials.email }
+          where: { email: credentials.email },
+          include: {
+            workspace: {
+              select: {
+                plan: true,
+              },
+            },
+          },
         });
 
         if (!user || !user.password) {
@@ -37,6 +44,7 @@ export const authOptions: NextAuthOptions = {
           workspaceId: user.workspaceId,
           role: user.role,
           isSuperAdmin: user.isSuperAdmin,
+          workspacePlan: user.workspace?.plan ?? null,
         };
       }
     })
@@ -51,10 +59,22 @@ export const authOptions: NextAuthOptions = {
         token.workspaceId = user.workspaceId;
         token.role = user.role;
         token.isSuperAdmin = user.isSuperAdmin;
+        token.workspacePlan = user.workspacePlan;
       }
+
+      if (token.workspaceId && !token.workspacePlan) {
+        const workspace = await prisma.workspace.findUnique({
+          where: { id: token.workspaceId },
+          select: { plan: true },
+        });
+        token.workspacePlan = workspace?.plan ?? null;
+      }
+
       return token;
     },
     async session({ session, token }) {
+      session.workspacePlan = token.workspacePlan ?? null;
+
       if (token && session.user) {
         session.user.id = token.id;
         session.user.workspaceId = token.workspaceId;

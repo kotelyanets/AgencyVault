@@ -29,7 +29,7 @@ export async function addCredential(formData: FormData, clientId: string) {
     await prisma.auditLog.create({
       data: {
         action: `Criou credencial: ${platformName}`,
-        userId: (session.user as any).id,
+        userId: session.user.id,
         credentialId: credential.id,
       }
     });
@@ -52,7 +52,7 @@ export async function revealPassword(credentialId: string) {
     await prisma.auditLog.create({
       data: {
         action: `Visualizou password: ${credential.platformName}`,
-        userId: (session.user as any).id,
+        userId: session.user.id,
         credentialId: credential.id,
       }
     });
