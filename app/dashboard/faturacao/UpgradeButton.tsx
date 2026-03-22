@@ -48,7 +48,7 @@ export function UpgradeButton() {
       ) : (
         <>
           <Rocket className="h-4 w-4 mr-2" />
-          Fazer Upgrade para Pro
+          Upgrade para PRO
         </>
       )}
     </Button>

@@ -29,7 +29,11 @@ export async function registerUser(formData: FormData) {
 
   await prisma.$transaction(async (tx) => {
     const workspace = await tx.workspace.create({
-      data: { name: workspaceName },
+      data: {
+        name: workspaceName,
+        plan: "TRIAL",
+        subscriptionStatus: "ACTIVE",
+      },
       select: { id: true },
     });
 

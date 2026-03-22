@@ -26,9 +26,10 @@ type HeaderBarProps = {
   name?: string | null;
   email?: string | null;
   workspaceName?: string | null;
+  workspacePlan?: string | null;
 };
 
-export function HeaderBar({ name, email, workspaceName }: HeaderBarProps) {
+export function HeaderBar({ name, email, workspaceName, workspacePlan }: HeaderBarProps) {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
   const [isCommandOpen, setIsCommandOpen] = useState(false);
@@ -68,7 +69,7 @@ export function HeaderBar({ name, email, workspaceName }: HeaderBarProps) {
             {displayWorkspaceName}
           </span>
           <span className="px-2.5 py-0.5 rounded-full bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 text-xs font-medium border border-indigo-100 dark:border-indigo-800/50">
-            Plano Pro
+            {workspacePlan === "PRO" ? "Plano Pro" : "Plano Trial"}
           </span>
         </div>
 
