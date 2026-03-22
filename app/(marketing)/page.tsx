@@ -35,7 +35,7 @@ export default function Home() {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4">
-            <Link href="/login">
+            <Link href="/register">
               <button className="inline-flex w-full sm:w-auto h-12 items-center justify-center rounded-md bg-blue-600 px-8 text-sm font-medium text-white shadow transition-colors hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-blue-700">
                 Começar Agora
                 <ArrowRight className="ml-2 h-4 w-4" />
