@@ -18,6 +18,7 @@ export default function MarketingLayout({
             <a href="#" className="hover:text-blue-400 transition-colors">Features</a>
             <Link href="/pricing" className="hover:text-blue-400 transition-colors">Pricing</Link>
             <Link href="/login" className="hover:text-blue-400 transition-colors">Login</Link>
+            <Link href="/register" className="hover:text-blue-400 transition-colors">Começar Agora</Link>
           </nav>
         </div>
       </header>

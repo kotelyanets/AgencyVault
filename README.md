@@ -127,6 +127,8 @@ npm run lint   # Run ESLint
 ## 🗂️ Main Routes
 
 - `/` — Landing page
+- `/register` — Workspace and admin registration
+- `/login` — Sign-in page
 - `/dashboard` — Main dashboard
 - `/dashboard/clientes` — Client management
 - `/dashboard/auditoria` — Audit logs
