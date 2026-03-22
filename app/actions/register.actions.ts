@@ -33,15 +33,6 @@ export async function registerWorkspaceAdmin(input: RegisterInput): Promise<Regi
   }
 
   try {
-    const existingUser = await prisma.user.findUnique({
-      where: { email },
-      select: { id: true },
-    });
-
-    if (existingUser) {
-      return { success: false, error: "Já existe um utilizador com este email." };
-    }
-
     const hashedPassword = await bcrypt.hash(password, 10);
 
     await prisma.$transaction(async (tx) => {
@@ -66,6 +57,7 @@ export async function registerWorkspaceAdmin(input: RegisterInput): Promise<Regi
       return { success: false, error: "Já existe um utilizador com este email." };
     }
 
+    console.error("Erro ao registar workspace/admin:", error);
     return { success: false, error: "Não foi possível criar a conta. Tente novamente." };
   }
 }

@@ -24,9 +24,10 @@ export default function RegisterPage() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
+    const normalizedEmail = email.trim().toLowerCase();
 
     if (password !== confirmPassword) {
-      setError("As passwords não coincidem.");
+      setError("A palavra-passe de confirmação não coincide.");
       return;
     }
 
@@ -35,7 +36,7 @@ export default function RegisterPage() {
     const result = await registerWorkspaceAdmin({
       workspaceName,
       name,
-      email,
+      email: normalizedEmail,
       password,
     });
 
@@ -46,7 +47,7 @@ export default function RegisterPage() {
     }
 
     const loginResult = await signIn("credentials", {
-      email: email.trim().toLowerCase(),
+      email: normalizedEmail,
       password,
       redirect: false,
     });
@@ -58,7 +59,6 @@ export default function RegisterPage() {
     }
 
     router.push("/dashboard");
-    router.refresh();
   };
 
   return (
