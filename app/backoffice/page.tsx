@@ -43,7 +43,7 @@ export default async function BackofficePage() {
           Backoffice
         </h1>
         <p className="text-slate-500 dark:text-slate-400">
-          Visão geral das agências e respetivas subscrições.
+          Visão geral das agências e respectivas subscrições.
         </p>
       </div>
 
