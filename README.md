@@ -1,81 +1,148 @@
 # 🛡️ AgencyVault
 
-**The Secure Credential Manager for Modern Agencies & Accounting Firms.**
+> **O Cofre Digital Seguro para Profissionais.**  
+> A multi-tenant B2B credential management SaaS built for accounting firms and agencies.
 
-AgencyVault is a premium, high-security B2B SaaS platform designed specifically for professionals who manage sensitive client credentials. Built with a focus on **security**, **traceability**, and **professionalism**, it empowers teams to securely share, monitor, and store passwords using state-of-the-art encryption.
+<img src="https://via.placeholder.com/1200x600?text=AgencyVault+Dashboard" alt="AgencyVault dashboard placeholder" />
+
+---
+
+## 🚀 Overview
+
+Accounting firms and agencies handle highly sensitive client credentials daily (Tax Authority portals, Social Security, banking access, vendor platforms).  
+AgencyVault replaces unsafe storage methods (spreadsheets, chat messages, paper notes) with a secure, auditable, and structured digital vault.
+
+The platform is designed to help teams:
+
+- Centralize credential management by client
+- Protect secrets with strong encryption
+- Track every critical action through audit logs
+- Work inside an agency workspace model (multi-tenant foundation)
 
 ---
 
 ## ✨ Key Features
 
-- **🔐 Bank-Grade Encryption**: Every password is encrypted client-side using **AES-256-GCM** with an Initialisation Vector (IV) before it ever touches the database. 
-- **📈 Dashboard Overview**: A real-time hub showcasing total clients, credentials, and a live security activity feed.
-- **👁️ Secure Reveal Toggles**: One-click password reveal with automatic audit logging for every view action.
-- **📝 Full Audit History**: A dedicated transparency log that tracks who viewed or modified which credential and when.
-- **👥 Member-Based Access**: Role-based access control protecting your sensitive agency data.
-- **🎨 Premium B2B UI**: A sleek, dark-themed interface built with **shadcn/ui** and **Framer Motion** for a luxurious user experience.
+- **🔐 Strong Encryption (AES-256-GCM):** Credentials are encrypted in server actions with Node.js `crypto` before storage.
+- **🏢 Workspace-Based Data Organization:** Users and clients are linked to workspaces in the data model.
+- **👤 Role Model Ready:** Built-in role enum (`ADMIN`, `MANAGER`, `MEMBER`) at schema level.
+- **🧾 Immutable-Style Audit Logging:** Credential creation and reveal actions are logged with user and timestamp context.
+- **📊 Operational Dashboard:** Quick visibility into client totals, credential totals, and recent activity.
+- **🎨 Professional UI:** Dark-themed interface built with Tailwind CSS, `shadcn/ui`, and Framer Motion.
 
 ---
 
 ## 🛠️ Tech Stack
 
-- **Framework**: Next.js 14 (App Router)
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS + Shadcn UI
-- **Database**: PostgreSQL (Prisma ORM)
-- **Authentication**: NextAuth.js
-- **Security**: Node.js `crypto` (AES-256-GCM) + `bcryptjs` for passwords.
+- **Framework:** [Next.js 14](https://nextjs.org/) (App Router, Server Actions)
+- **Language:** TypeScript
+- **Database:** PostgreSQL
+- **ORM:** [Prisma 7.5](https://www.prisma.io/) (`prisma.config.ts`)
+- **Authentication:** [NextAuth.js](https://next-auth.js.org/) (Credentials provider + JWT session)
+- **Password Hashing:** `bcryptjs`
+- **Styling:** Tailwind CSS + [shadcn/ui](https://ui.shadcn.com/)
 
 ---
 
-## 🚀 Getting Started
+## 🔐 Security Architecture
 
-### 1. Prerequisite
-- Node.js installed.
-- Access to a PostgreSQL database (e.g., Neon).
+AgencyVault currently secures credentials using authenticated encryption:
 
-### 2. Installation
+1. A credential is submitted through a server action.
+2. The plaintext password is received by a server action (over HTTPS in production) and encrypted using **AES-256-GCM**.
+3. A random IV is generated per encryption operation.
+4. The encrypted payload (`iv:authTag:ciphertext`) is persisted in PostgreSQL.
+5. Decryption occurs only during authorized reveal operations, which are audit-logged.
+
+> **Important:** Use a strong `NEXTAUTH_SECRET` and a valid 64-character hex `ENCRYPTION_KEY` in production.
+
+---
+
+## 📦 Getting Started
+
+### Prerequisites
+
+- Node.js 18+
+- npm
+- PostgreSQL database (Neon is a good option)
+
+### 1) Clone & Install
+
 ```bash
-# Clone the repository
 git clone https://github.com/kotelyanets/AgencyVault.git
-
-# Install dependencies
+cd AgencyVault
 npm install
 ```
 
-### 3. Environment Setup
-Create a `.env` file in the root directory:
+### 2) Environment Variables
+
+Create a `.env` (or `.env.local`) file in the project root with:
+
 ```env
-DATABASE_URL="your-postgresql-url"
-ENCRYPTION_KEY="64-char-hexadecimal-key"
-NEXTAUTH_SECRET="your-next-auth-secret"
+DATABASE_URL="postgresql://user:password@host:5432/database"
+ENCRYPTION_KEY="your-64-char-hex-encryption-key-here"
+NEXTAUTH_SECRET="replace-with-a-strong-random-secret"
 NEXTAUTH_URL="http://localhost:3000"
 ```
 
-### 4. Database Setup
-```bash
-# Push schema to database
-npx prisma db push
+### 3) Database Setup
 
-# Generate Prisma Client
+```bash
+npx prisma db push
 npx prisma generate
 ```
 
-### 5. Running and Seeding
-```bash
-# Start development server
-npm run dev
+### 4) Run the App
 
-# Visit http://localhost:3000/api/seed to create the admin user
-# User: admin@agencyvault.com / Password: password123
+```bash
+npm run dev
+```
+
+Then open `http://localhost:3000`.
+
+### 5) Optional Seed (Development)
+
+To create a default workspace and admin user, visit:
+
+`http://localhost:3000/api/seed`
+
+Seeded credentials:
+
+- **Email:** `admin@agencyvault.com`
+- **Password:** `password123`
+
+---
+
+## 🧩 Available Scripts
+
+```bash
+npm run dev    # Start development server
+npm run build  # Create production build
+npm run start  # Start production server
+npm run lint   # Run ESLint
 ```
 
 ---
 
-## ⚖️ License & Proprietary Notice
+## 🗂️ Main Routes
 
-**This product is proprietary and owned exclusively by the developer.**
+- `/` — Landing page
+- `/dashboard` — Main dashboard
+- `/dashboard/clientes` — Client management
+- `/dashboard/auditoria` — Audit logs
+- `/api/auth/[...nextauth]` — Authentication endpoints
+- `/api/seed` — Development seed endpoint
 
-This software is provided for private commercial use under a monthly subscription model ("monthly pay"). You are not authorized to redistribute, modify, or resell this software without express written permission.
+---
 
-Copyright © 2024. All rights reserved.
+## ⚠️ Current Project Notes
+
+- Automated tests are not currently configured in this repository.
+- Lint/build status can be affected by existing project issues and external network restrictions (e.g., Google Fonts fetch in restricted environments).
+
+---
+
+## ⚖️ License
+
+This repository includes a `LICENSE` file.  
+Refer to `LICENSE` for full terms.
