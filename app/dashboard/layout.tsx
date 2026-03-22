@@ -9,7 +9,7 @@ import { HeaderBar } from "./HeaderBar";
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const session = await getServerSession(authOptions);
-  const workspaceName = session?.user?.workspaceId
+  const workspace = session?.user?.workspaceId
     ? (
         await prisma.workspace.findUnique({
           where: { id: session.user.workspaceId },
@@ -35,8 +35,8 @@ export default async function DashboardLayout({ children }: { children: React.Re
         <HeaderBar
           name={session?.user?.name}
           email={session?.user?.email}
-          workspaceName={workspaceName?.name}
-          workspacePlan={workspaceName?.plan}
+          workspaceName={workspace?.name}
+          workspacePlan={workspace?.plan}
         />
 
         {/* Page Content */}
