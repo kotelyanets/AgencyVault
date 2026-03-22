@@ -25,9 +25,10 @@ import {
 type HeaderBarProps = {
   name?: string | null;
   email?: string | null;
+  workspaceName?: string | null;
 };
 
-export function HeaderBar({ name, email }: HeaderBarProps) {
+export function HeaderBar({ name, email, workspaceName }: HeaderBarProps) {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
   const [isCommandOpen, setIsCommandOpen] = useState(false);
@@ -54,16 +55,17 @@ export function HeaderBar({ name, email }: HeaderBarProps) {
 
   const displayName = name || "Admin";
   const displayEmail = email || "admin@silva.pt";
+  const displayWorkspaceName = workspaceName || "Workspace";
 
   return (
     <>
       <header className="h-16 flex items-center justify-between px-8 border-b border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm z-10 sticky top-0">
         <div className="flex items-center gap-4">
           <div className="h-8 w-8 rounded-full bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center text-indigo-600 dark:text-indigo-400 font-bold border border-indigo-200 dark:border-indigo-800">
-            G
+            {displayWorkspaceName.substring(0, 1).toUpperCase()}
           </div>
           <span className="font-semibold text-slate-900 dark:text-white">
-            Gabinete Contabilidade Silva
+            {displayWorkspaceName}
           </span>
           <span className="px-2.5 py-0.5 rounded-full bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 text-xs font-medium border border-indigo-100 dark:border-indigo-800/50">
             Pro Plan
