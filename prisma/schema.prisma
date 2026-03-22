@@ -1,0 +1,72 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  ADMIN
+  MANAGER
+  MEMBER
+}
+
+model Workspace {
+  id        String   @id @default(cuid())
+  name      String
+  createdAt DateTime @default(now())
+
+  users    User[]
+  clients  Client[]
+}
+
+model User {
+  id          String   @id @default(cuid())
+  email       String   @unique
+  name        String?
+  role        Role     @default(MEMBER)
+  
+  workspaceId String
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+
+  auditLogs   AuditLog[]
+}
+
+model Client {
+  id          String   @id @default(cuid())
+  name        String
+  nif         String?
+  
+  workspaceId String
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+
+  credentials Credential[]
+}
+
+model Credential {
+  id                String   @id @default(cuid())
+  platformName      String
+  login             String
+  encryptedPassword String
+  
+  clientId          String
+  client            Client   @relation(fields: [clientId], references: [id], onDelete: Cascade)
+
+  auditLogs         AuditLog[]
+}
+
+model AuditLog {
+  id           String   @id @default(cuid())
+  action       String
+  createdAt    DateTime @default(now())
+  
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  credentialId String?
+  credential   Credential? @relation(fields: [credentialId], references: [id], onDelete: SetNull)
+}
