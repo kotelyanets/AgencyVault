@@ -18,11 +18,12 @@ enum Role {
 model Workspace {
   id                   String   @id @default(cuid())
   name                 String
+  createdAt            DateTime @default(now())
   stripeCustomerId     String?  @unique
   stripeSubscriptionId String?  @unique
-  plan                 String   @default("FREE")
-  subscriptionStatus   String   @default("TRIAL")
-  createdAt            DateTime @default(now())
+  stripePriceId        String?
+  plan                 String   @default("TRIAL")
+  subscriptionStatus   String   @default("ACTIVE")
 
   users    User[]
   clients  Client[]

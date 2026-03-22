@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Activity, Briefcase, Settings, Shield, Users } from "lucide-react";
+import { Activity, Briefcase, CreditCard, Settings, Shield, Users } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { LogoutButton } from "./LogoutButton";
@@ -12,6 +12,7 @@ const navItems = [
   { href: "/dashboard/cofre", label: "Cofre", icon: Shield },
   { href: "/dashboard/equipa", label: "Equipa", icon: Briefcase },
   { href: "/dashboard/auditoria", label: "Auditoria", icon: Activity },
+  { href: "/dashboard/faturacao", label: "Faturação", icon: CreditCard },
   { href: "/dashboard/configuracoes", label: "Configurações", icon: Settings },
 ];
 
