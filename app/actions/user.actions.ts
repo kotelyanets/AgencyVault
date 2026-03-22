@@ -24,13 +24,22 @@ export async function addTeamMember(formData: FormData) {
   const name = (formData.get("name") as string | null)?.trim();
   const email = (formData.get("email") as string | null)?.trim().toLowerCase();
   const roleValue = formData.get("role") as string | null;
-  const role = ALLOWED_ROLES.find((entry) => entry === roleValue);
+  const role = ALLOWED_ROLES.find((allowedRole) => allowedRole === roleValue);
 
   if (!name || !email || !role) {
     throw new Error("Dados inválidos para criação de utilizador.");
   }
 
   const hashedPassword = await bcrypt.hash("Mudar123!", 10);
+
+  const existingUser = await prisma.user.findUnique({
+    where: { email },
+    select: { id: true },
+  });
+
+  if (existingUser) {
+    throw new Error("Já existe um utilizador com este email.");
+  }
 
   await prisma.user.create({
     data: {

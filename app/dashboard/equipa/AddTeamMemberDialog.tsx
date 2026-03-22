@@ -20,12 +20,19 @@ import { Label } from "@/components/ui/label";
 export function AddTeamMemberDialog() {
   const [open, setOpen] = useState(false);
   const [isPending, setIsPending] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   async function onSubmit(formData: FormData) {
-    setIsPending(true);
-    await addTeamMember(formData);
-    setIsPending(false);
-    setOpen(false);
+    try {
+      setError(null);
+      setIsPending(true);
+      await addTeamMember(formData);
+      setOpen(false);
+    } catch (submissionError) {
+      setError(submissionError instanceof Error ? submissionError.message : "Não foi possível adicionar o membro.");
+    } finally {
+      setIsPending(false);
+    }
   }
 
   return (
@@ -67,6 +74,7 @@ export function AddTeamMemberDialog() {
                 <option value="MEMBER">Member</option>
               </select>
             </div>
+            {error && <p className="text-sm text-red-600 dark:text-red-400">{error}</p>}
           </div>
           <DialogFooter>
             <Button variant="outline" type="button" onClick={() => setOpen(false)}>
