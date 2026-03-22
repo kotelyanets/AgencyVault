@@ -7,7 +7,7 @@ import {
   TableHeader, 
   TableRow 
 } from "@/components/ui/table";
-import { History, User as UserIcon, Shield } from "lucide-react";
+import { User as UserIcon } from "lucide-react";
 import { format } from "date-fns";
 import { pt } from "date-fns/locale";
 

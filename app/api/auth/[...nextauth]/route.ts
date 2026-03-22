@@ -44,7 +44,7 @@ export const authOptions: NextAuthOptions = {
           workspaceId: user.workspaceId,
           role: user.role,
           isSuperAdmin: user.isSuperAdmin,
-          workspacePlan: user.workspace?.plan ?? null,
+          workspacePlan: user.workspace?.plan ?? "TRIAL",
         };
       }
     })
@@ -67,13 +67,13 @@ export const authOptions: NextAuthOptions = {
           where: { id: token.workspaceId },
           select: { plan: true },
         });
-        token.workspacePlan = workspace?.plan ?? null;
+        token.workspacePlan = workspace?.plan ?? "TRIAL";
       }
 
       return token;
     },
     async session({ session, token }) {
-      session.workspacePlan = token.workspacePlan ?? null;
+      session.workspacePlan = token.workspacePlan ?? "TRIAL";
 
       if (token && session.user) {
         session.user.id = token.id;
