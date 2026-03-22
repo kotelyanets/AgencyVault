@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
+import { encrypt } from "@/lib/encryption";
+import { randomUUID } from "crypto";
 
 export async function GET() {
   try {
@@ -32,6 +34,66 @@ export async function GET() {
         workspaceId: workspace.id,
       }
     });
+
+    let client = await prisma.client.findFirst({
+      where: {
+        workspaceId: workspace.id,
+        name: "Cliente Demo",
+      },
+    });
+
+    if (!client) {
+      client = await prisma.client.create({
+        data: {
+          name: "Cliente Demo",
+          workspaceId: workspace.id,
+        },
+      });
+    }
+
+    let credential = await prisma.credential.findFirst({
+      where: {
+        clientId: client.id,
+        platformName: "Gmail",
+        login: "demo@cliente.com",
+      },
+    });
+
+    if (!credential) {
+      credential = await prisma.credential.create({
+        data: {
+          platformName: "Gmail",
+          login: "demo@cliente.com",
+          encryptedPassword: encrypt(randomUUID()),
+          clientId: client.id,
+        },
+      });
+    }
+
+    const existingAuditLogs = await prisma.auditLog.count({
+      where: { userId: user.id },
+    });
+
+    if (existingAuditLogs === 0) {
+      await prisma.auditLog.createMany({
+        data: [
+          {
+            action: "CREATE_CLIENT",
+            userId: user.id,
+          },
+          {
+            action: "CREATE_CREDENTIAL",
+            userId: user.id,
+            credentialId: credential.id,
+          },
+          {
+            action: "VIEW_PASSWORD",
+            userId: user.id,
+            credentialId: credential.id,
+          },
+        ],
+      });
+    }
 
     return NextResponse.json({ message: "Seed successful", user: user.email });
   } catch (error: unknown) {
