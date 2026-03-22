@@ -3,11 +3,20 @@ import { Shield } from 'lucide-react';
 
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { prisma } from "@/lib/prisma";
 import { SidebarNav } from "./SidebarNav";
 import { HeaderBar } from "./HeaderBar";
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const session = await getServerSession(authOptions);
+  const workspaceName = session?.user?.workspaceId
+    ? (
+        await prisma.workspace.findUnique({
+          where: { id: session.user.workspaceId },
+          select: { name: true },
+        })
+      )?.name
+    : null;
   return (
     <div className="flex h-screen bg-slate-50 dark:bg-slate-950">
       {/* Sidebar */}
@@ -23,7 +32,11 @@ export default async function DashboardLayout({ children }: { children: React.Re
 
       {/* Main Content Component */}
       <main className="flex-1 flex flex-col min-w-0 overflow-hidden">
-        <HeaderBar name={session?.user?.name} email={session?.user?.email} />
+        <HeaderBar
+          name={session?.user?.name}
+          email={session?.user?.email}
+          workspaceName={workspaceName}
+        />
 
         {/* Page Content */}
         <div className="flex-1 overflow-auto p-4 md:p-8">
