@@ -61,14 +61,7 @@ export const authOptions: NextAuthOptions = {
         token.isSuperAdmin = user.isSuperAdmin;
         token.workspacePlan = user.workspacePlan;
       }
-
-      if (token.workspaceId && !token.workspacePlan) {
-        const workspace = await prisma.workspace.findUnique({
-          where: { id: token.workspaceId },
-          select: { plan: true },
-        });
-        token.workspacePlan = workspace?.plan ?? "TRIAL";
-      }
+      token.workspacePlan = token.workspacePlan ?? "TRIAL";
 
       return token;
     },

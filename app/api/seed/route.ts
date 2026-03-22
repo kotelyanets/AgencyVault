@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
+import { encrypt } from "@/lib/encryption";
+import { randomUUID } from "crypto";
 
 export async function GET() {
   try {
@@ -62,7 +64,7 @@ export async function GET() {
         data: {
           platformName: "Gmail",
           login: "demo@cliente.com",
-          encryptedPassword: "seeded-password",
+          encryptedPassword: encrypt(randomUUID()),
           clientId: client.id,
         },
       });
