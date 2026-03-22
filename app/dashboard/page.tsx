@@ -97,11 +97,11 @@ export default async function DashboardPage() {
                 Sem atividade registada.
               </div>
             ) : (
-              recentLogs.map((log) => (
+              recentLogs.map((log: any) => (
                 <div key={log.id} className="p-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
                   <div className="flex items-start gap-3">
-                    <div className="h-8 w-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center mt-0.5">
-                      <Shield className="h-4 w-4 text-slate-400" />
+                    <div className="h-8 w-8 rounded-full bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center mt-0.5">
+                      <Shield className="h-4 w-4 text-blue-600 dark:text-blue-400" />
                     </div>
                     <div>
                       <p className="text-sm font-medium text-slate-900 dark:text-slate-100">
@@ -119,36 +119,35 @@ export default async function DashboardPage() {
         </div>
 
         {/* Quick Actions Card */}
-        <div className="bg-slate-900 dark:bg-zinc-950 rounded-2xl p-8 text-white shadow-xl border border-slate-800 flex flex-col justify-between relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 to-blue-500 opacity-50" />
+        <div className="bg-white dark:bg-slate-900 rounded-2xl p-8 text-slate-900 dark:text-white shadow-sm border border-slate-200 dark:border-slate-800 flex flex-col justify-between relative overflow-hidden">
           
           <div>
-            <h2 className="text-2xl font-bold mb-2 text-white flex items-center gap-2">
-              <Plus className="h-6 w-6 text-indigo-400" />
+            <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
+              <Plus className="h-6 w-6 text-indigo-500" />
               Ações Rápidas
             </h2>
-            <p className="text-slate-400 mb-8 max-w-xs">Precisa de adicionar um novo cliente ou credencial ao sistema?</p>
+            <p className="text-slate-500 dark:text-slate-400 mb-8 max-w-xs font-medium">Precisa de adicionar um novo cliente ou credencial ao sistema?</p>
             
             <div className="space-y-4">
-              <Link href="/dashboard/clientes">
-                <button className="w-full flex items-center justify-between p-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl transition-all group">
-                  <div className="flex items-center gap-3 text-white">
-                    <Users className="h-5 w-5 text-indigo-400" />
-                    <span className="font-medium">Gerir Clientes</span>
+              <Link href="/dashboard/clientes" className="block">
+                <button className="w-full h-14 flex items-center justify-between px-6 bg-slate-900 hover:bg-black text-white rounded-xl transition-all group shadow-lg shadow-slate-900/20 active:scale-[0.98]">
+                  <div className="flex items-center gap-3">
+                    <Users className="h-5 w-5" />
+                    <span className="font-bold tracking-tight">Gerir Clientes</span>
                   </div>
-                  <ArrowRight className="h-4 w-4 opacity-50 group-hover:opacity-100 transition-all translate-x-[-10px] group-hover:translate-x-0" />
+                  <ArrowRight className="h-4 w-4 transition-all translate-x-[-4px] group-hover:translate-x-0" />
                 </button>
               </Link>
             </div>
           </div>
           
-          <div className="mt-8 pt-6 border-t border-white/5">
+          <div className="mt-8 pt-6 border-t border-slate-100 dark:border-slate-800">
             <div className="flex items-center gap-4">
-              <div className="h-10 w-10 rounded-full bg-white/10 flex items-center justify-center">
-                <Lock className="h-5 w-5 text-indigo-200" />
+              <div className="h-10 w-10 rounded-full bg-slate-50 dark:bg-slate-800 flex items-center justify-center border border-slate-200 dark:border-slate-700">
+                <Lock className="h-5 w-5 text-slate-400" />
               </div>
-              <p className="text-sm text-indigo-100 leading-snug">
-                Lembre-se: Todas as passwords são <span className="text-white font-bold underline decoration-indigo-400 underline-offset-4">encriptadas (AES-256-GCM)</span> antes de saírem do seu navegador.
+              <p className="text-sm text-slate-500 dark:text-slate-400 leading-snug font-medium">
+                Lembre-se: Todas as passwords são <span className="text-slate-900 dark:text-white font-bold underline decoration-indigo-500 underline-offset-4">encriptadas (AES-256-GCM)</span> antes de saírem do seu navegador.
               </p>
             </div>
           </div>

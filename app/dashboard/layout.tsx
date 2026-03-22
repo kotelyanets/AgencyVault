@@ -22,7 +22,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
       {/* Sidebar */}
       <aside className="w-64 flex flex-col border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
         <div className="p-6">
-          <Link href="/dashboard" className="flex items-center gap-2 font-bold text-xl tracking-tight text-indigo-600 dark:text-indigo-400">
+          <Link href="/dashboard" className="flex items-center gap-2 font-bold text-xl tracking-tight text-indigo-600 dark:text-indigo-400 hover:opacity-80 transition-opacity">
             <Shield className="h-6 w-6" />
             AgencyVault
           </Link>
