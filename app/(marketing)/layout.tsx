@@ -16,7 +16,7 @@ export default function MarketingLayout({
           </div>
           <nav className="ml-auto flex items-center gap-6 text-sm font-medium">
             <a href="#" className="hover:text-blue-400 transition-colors">Features</a>
-            <a href="#" className="hover:text-blue-400 transition-colors">Pricing</a>
+            <Link href="/pricing" className="hover:text-blue-400 transition-colors">Pricing</Link>
             <Link href="/login" className="hover:text-blue-400 transition-colors">Login</Link>
           </nav>
         </div>
