@@ -23,7 +23,7 @@ The platform is designed to help teams:
 
 ## ✨ Key Features
 
-- **🔐 Strong Encryption (AES-256-GCM):** Credentials are encrypted on the server with Node.js `crypto` before storage.
+- **🔐 Strong Encryption (AES-256-GCM):** Credentials are encrypted in server actions with Node.js `crypto` before storage.
 - **🏢 Workspace-Based Data Organization:** Users and clients are linked to workspaces in the data model.
 - **👤 Role Model Ready:** Built-in role enum (`ADMIN`, `MANAGER`, `MEMBER`) at schema level.
 - **🧾 Immutable-Style Audit Logging:** Credential creation and reveal actions are logged with user and timestamp context.
@@ -49,7 +49,7 @@ The platform is designed to help teams:
 AgencyVault currently secures credentials using authenticated encryption:
 
 1. A credential is submitted through a server action.
-2. The plaintext password is encrypted using **AES-256-GCM**.
+2. The plaintext password is received by a server action (over HTTPS in production) and encrypted using **AES-256-GCM**.
 3. A random IV is generated per encryption operation.
 4. The encrypted payload (`iv:authTag:ciphertext`) is persisted in PostgreSQL.
 5. Decryption occurs only during authorized reveal operations, which are audit-logged.
@@ -76,11 +76,11 @@ npm install
 
 ### 2) Environment Variables
 
-Create `/home/runner/work/AgencyVault/AgencyVault/.env` (or `.env.local`) with:
+Create a `.env` (or `.env.local`) file in the project root with:
 
 ```env
 DATABASE_URL="postgresql://user:password@host:5432/database"
-ENCRYPTION_KEY="0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+ENCRYPTION_KEY="your-64-char-hex-encryption-key-here"
 NEXTAUTH_SECRET="replace-with-a-strong-random-secret"
 NEXTAUTH_URL="http://localhost:3000"
 ```
@@ -145,4 +145,4 @@ npm run lint   # Run ESLint
 ## ⚖️ License
 
 This repository includes a `LICENSE` file.  
-Refer to `/home/runner/work/AgencyVault/AgencyVault/LICENSE` for full terms.
+Refer to `LICENSE` for full terms.
