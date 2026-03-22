@@ -21,19 +21,22 @@ export async function GET() {
       update: {
         password: hashedPassword,
         workspaceId: workspace.id,
+        isSuperAdmin: true,
       },
       create: {
         email: 'admin@agencyvault.com',
         name: 'Admin',
         password: hashedPassword,
         role: 'ADMIN',
+        isSuperAdmin: true,
         workspaceId: workspace.id,
       }
     });
 
     return NextResponse.json({ message: "Seed successful", user: user.email });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Seed error:", error);
-    return NextResponse.json({ error: "Seed failed", details: error.message }, { status: 500 });
+    const errorMessage = error instanceof Error ? error.message : "Unknown error";
+    return NextResponse.json({ error: "Seed failed", details: errorMessage }, { status: 500 });
   }
 }

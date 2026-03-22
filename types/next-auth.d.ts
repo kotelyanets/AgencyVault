@@ -7,6 +7,7 @@ declare module "next-auth" {
       id: string;
       workspaceId: string;
       role: Role;
+      isSuperAdmin: boolean;
     };
   }
 
@@ -14,6 +15,7 @@ declare module "next-auth" {
     id: string;
     workspaceId: string;
     role: Role;
+    isSuperAdmin: boolean;
   }
 }
 
@@ -22,5 +24,6 @@ declare module "next-auth/jwt" {
     id: string;
     workspaceId: string;
     role: Role;
+    isSuperAdmin: boolean;
   }
 }

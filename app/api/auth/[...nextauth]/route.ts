@@ -36,6 +36,7 @@ export const authOptions: NextAuthOptions = {
           name: user.name,
           workspaceId: user.workspaceId,
           role: user.role,
+          isSuperAdmin: user.isSuperAdmin,
         };
       }
     })
@@ -49,6 +50,7 @@ export const authOptions: NextAuthOptions = {
         token.id = user.id;
         token.workspaceId = user.workspaceId;
         token.role = user.role;
+        token.isSuperAdmin = user.isSuperAdmin;
       }
       return token;
     },
@@ -57,6 +59,7 @@ export const authOptions: NextAuthOptions = {
         session.user.id = token.id;
         session.user.workspaceId = token.workspaceId;
         session.user.role = token.role;
+        session.user.isSuperAdmin = token.isSuperAdmin;
       }
       return session;
     }

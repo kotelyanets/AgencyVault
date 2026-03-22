@@ -16,9 +16,13 @@ enum Role {
 }
 
 model Workspace {
-  id        String   @id @default(cuid())
-  name      String
-  createdAt DateTime @default(now())
+  id                   String   @id @default(cuid())
+  name                 String
+  stripeCustomerId     String?  @unique
+  stripeSubscriptionId String?  @unique
+  plan                 String   @default("FREE")
+  subscriptionStatus   String   @default("TRIAL")
+  createdAt            DateTime @default(now())
 
   users    User[]
   clients  Client[]
@@ -30,6 +34,7 @@ model User {
   name        String?
   password    String?
   role        Role     @default(MEMBER)
+  isSuperAdmin Boolean @default(false)
   
   workspaceId String
   workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
