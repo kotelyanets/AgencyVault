@@ -37,7 +37,11 @@ export async function registerWorkspaceAdmin(input: RegisterInput): Promise<Regi
 
     await prisma.$transaction(async (tx) => {
       const workspace = await tx.workspace.create({
-        data: { name: workspaceName },
+        data: {
+          name: workspaceName,
+          plan: "TRIAL",
+          subscriptionStatus: "ACTIVE",
+        },
       });
 
       await tx.user.create({

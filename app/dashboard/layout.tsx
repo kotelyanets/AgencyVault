@@ -13,9 +13,9 @@ export default async function DashboardLayout({ children }: { children: React.Re
     ? (
         await prisma.workspace.findUnique({
           where: { id: session.user.workspaceId },
-          select: { name: true },
+          select: { name: true, plan: true },
         })
-      )?.name
+      )
     : null;
   return (
     <div className="flex h-screen bg-slate-50 dark:bg-slate-950">
@@ -35,7 +35,8 @@ export default async function DashboardLayout({ children }: { children: React.Re
         <HeaderBar
           name={session?.user?.name}
           email={session?.user?.email}
-          workspaceName={workspaceName}
+          workspaceName={workspaceName?.name}
+          workspacePlan={workspaceName?.plan}
         />
 
         {/* Page Content */}
