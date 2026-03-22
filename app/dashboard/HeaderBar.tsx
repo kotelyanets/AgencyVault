@@ -134,7 +134,7 @@ export function HeaderBar({ name, email }: HeaderBarProps) {
               <DropdownMenuSeparator />
               <DropdownMenuItem
                 variant="destructive"
-                onClick={() => signOut()}
+                onClick={() => signOut({ callbackUrl: "/login" })}
               >
                 Sair
               </DropdownMenuItem>
