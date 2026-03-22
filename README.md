@@ -1,36 +1,81 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🛡️ AgencyVault
 
-## Getting Started
+**The Secure Credential Manager for Modern Agencies & Accounting Firms.**
 
-First, run the development server:
+AgencyVault is a premium, high-security B2B SaaS platform designed specifically for professionals who manage sensitive client credentials. Built with a focus on **security**, **traceability**, and **professionalism**, it empowers teams to securely share, monitor, and store passwords using state-of-the-art encryption.
 
+---
+
+## ✨ Key Features
+
+- **🔐 Bank-Grade Encryption**: Every password is encrypted client-side using **AES-256-GCM** with an Initialisation Vector (IV) before it ever touches the database. 
+- **📈 Dashboard Overview**: A real-time hub showcasing total clients, credentials, and a live security activity feed.
+- **👁️ Secure Reveal Toggles**: One-click password reveal with automatic audit logging for every view action.
+- **📝 Full Audit History**: A dedicated transparency log that tracks who viewed or modified which credential and when.
+- **👥 Member-Based Access**: Role-based access control protecting your sensitive agency data.
+- **🎨 Premium B2B UI**: A sleek, dark-themed interface built with **shadcn/ui** and **Framer Motion** for a luxurious user experience.
+
+---
+
+## 🛠️ Tech Stack
+
+- **Framework**: Next.js 14 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS + Shadcn UI
+- **Database**: PostgreSQL (Prisma ORM)
+- **Authentication**: NextAuth.js
+- **Security**: Node.js `crypto` (AES-256-GCM) + `bcryptjs` for passwords.
+
+---
+
+## 🚀 Getting Started
+
+### 1. Prerequisite
+- Node.js installed.
+- Access to a PostgreSQL database (e.g., Neon).
+
+### 2. Installation
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Clone the repository
+git clone https://github.com/kotelyanets/AgencyVault.git
+
+# Install dependencies
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 3. Environment Setup
+Create a `.env` file in the root directory:
+```env
+DATABASE_URL="your-postgresql-url"
+ENCRYPTION_KEY="64-char-hexadecimal-key"
+NEXTAUTH_SECRET="your-next-auth-secret"
+NEXTAUTH_URL="http://localhost:3000"
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 4. Database Setup
+```bash
+# Push schema to database
+npx prisma db push
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# Generate Prisma Client
+npx prisma generate
+```
 
-## Learn More
+### 5. Running and Seeding
+```bash
+# Start development server
+npm run dev
 
-To learn more about Next.js, take a look at the following resources:
+# Visit http://localhost:3000/api/seed to create the admin user
+# User: admin@agencyvault.com / Password: password123
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## ⚖️ License & Proprietary Notice
 
-## Deploy on Vercel
+**This product is proprietary and owned exclusively by the developer.**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+This software is provided for private commercial use under a monthly subscription model ("monthly pay"). You are not authorized to redistribute, modify, or resell this software without express written permission.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Copyright © 2024. All rights reserved.

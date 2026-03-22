@@ -3,7 +3,12 @@ import { Users, Shield, Briefcase, Activity, Settings, LogOut, Search, Bell } fr
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
-export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { LogoutButton } from "./LogoutButton";
+
+export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
+  const session = await getServerSession(authOptions);
   return (
     <div className="flex h-screen bg-slate-50 dark:bg-slate-950">
       {/* Sidebar */}
@@ -39,10 +44,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             <Settings className="h-4 w-4" />
             Configurações
           </Link>
-          <button className="w-full flex items-center gap-3 px-3 py-2 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/50 transition-colors text-sm font-medium rounded-md mt-1">
-            <LogOut className="h-4 w-4" />
-            Terminar Sessão
-          </button>
+          <LogoutButton />
         </div>
       </aside>
 
@@ -75,11 +77,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             </Button>
             <div className="flex items-center gap-3 pl-6 border-l border-slate-200 dark:border-slate-800">
               <div className="flex flex-col items-end hidden sm:flex">
-                <span className="text-sm font-medium text-slate-900 dark:text-white leading-none">Admin</span>
-                <span className="text-xs text-slate-500 dark:text-slate-400 mt-1">admin@silva.pt</span>
+                <span className="text-sm font-medium text-slate-900 dark:text-white leading-none">{session?.user?.name || "Admin"}</span>
+                <span className="text-xs text-slate-500 dark:text-slate-400 mt-1">{session?.user?.email || "admin@silva.pt"}</span>
               </div>
               <div className="h-9 w-9 rounded-full bg-slate-200 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 overflow-hidden flex-shrink-0">
-                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Admin" alt="Admin" className="h-full w-full object-cover" />
+                <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${session?.user?.name || "Admin"}`} alt="User Avatar" className="h-full w-full object-cover" />
               </div>
             </div>
           </div>

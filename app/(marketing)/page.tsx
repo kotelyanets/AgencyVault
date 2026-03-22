@@ -1,5 +1,6 @@
 import { ArrowRight, ShieldCheck, Lock, Users } from "lucide-react";
 import { SparklesCore } from "@/components/ui/sparkles";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -34,13 +35,17 @@ export default function Home() {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4">
-            <button className="inline-flex h-12 items-center justify-center rounded-md bg-blue-600 px-8 text-sm font-medium text-white shadow transition-colors hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-blue-700">
-              Começar Agora
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </button>
-            <button className="inline-flex h-12 items-center justify-center rounded-md border border-slate-800 bg-slate-950 px-8 text-sm font-medium text-white shadow-sm transition-colors hover:bg-slate-900 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-slate-300">
-              Marcar Demo
-            </button>
+            <Link href="/login">
+              <button className="inline-flex w-full sm:w-auto h-12 items-center justify-center rounded-md bg-blue-600 px-8 text-sm font-medium text-white shadow transition-colors hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-blue-700">
+                Começar Agora
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </button>
+            </Link>
+            <Link href="#">
+              <button className="inline-flex w-full sm:w-auto h-12 items-center justify-center rounded-md border border-slate-800 bg-slate-950 px-8 text-sm font-medium text-white shadow-sm transition-colors hover:bg-slate-900 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-slate-300">
+                Marcar Demo
+              </button>
+            </Link>
           </div>
         </div>
       </section>
