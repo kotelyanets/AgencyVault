@@ -46,6 +46,10 @@ export async function updateUserPassword(formData: FormData) {
     throw new Error("Preencha todos os campos da password.");
   }
 
+  if (newPassword.length < 8) {
+    throw new Error("A nova password deve ter pelo menos 8 caracteres.");
+  }
+
   if (newPassword !== confirmPassword) {
     throw new Error("As passwords não coincidem.");
   }

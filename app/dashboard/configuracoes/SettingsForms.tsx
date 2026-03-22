@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import { updateUserPassword, updateWorkspaceName } from "@/app/actions/settings.actions";
 import { Button } from "@/components/ui/button";
@@ -18,6 +18,7 @@ export function SettingsForms({ workspaceName, canEditWorkspace }: SettingsForms
   const { toast } = useToast();
   const [isSavingWorkspace, setIsSavingWorkspace] = useState(false);
   const [isSavingPassword, setIsSavingPassword] = useState(false);
+  const passwordFormRef = useRef<HTMLFormElement>(null);
 
   async function onWorkspaceSubmit(formData: FormData) {
     try {
@@ -49,6 +50,7 @@ export function SettingsForms({ workspaceName, canEditWorkspace }: SettingsForms
         title: "Password atualizada",
         description: "A sua password foi alterada com sucesso.",
       });
+      passwordFormRef.current?.reset();
     } catch (error) {
       toast({
         title: "Erro ao atualizar password",
@@ -109,7 +111,7 @@ export function SettingsForms({ workspaceName, canEditWorkspace }: SettingsForms
           </p>
         </div>
 
-        <form action={onPasswordSubmit} className="space-y-4 max-w-xl">
+        <form ref={passwordFormRef} action={onPasswordSubmit} className="space-y-4 max-w-xl">
           <div className="grid gap-2">
             <Label htmlFor="new-password">Nova Password</Label>
             <Input
