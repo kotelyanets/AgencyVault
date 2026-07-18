@@ -96,7 +96,6 @@ export async function getClientById(id: string) {
     if (!client) {
       throw new Error("Access Denied");
     }
-    });
 
     return client;
   } catch {
