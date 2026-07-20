@@ -4,6 +4,7 @@ import bcrypt from "bcryptjs";
 import { Role } from "@prisma/client";
 import { getServerSession } from "next-auth";
 import { revalidatePath } from "next/cache";
+import { randomBytes } from "crypto";
 
 import { prisma } from "@/lib/prisma";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
@@ -30,7 +31,9 @@ export async function addTeamMember(formData: FormData) {
     throw new Error("Dados inválidos para criação de utilizador.");
   }
 
-  const hashedPassword = await bcrypt.hash("Mudar123!", 10);
+  // Generate one-time temporary password instead of relying on a hardcoded default.
+  const temporaryPassword = randomBytes(16).toString("hex");
+  const hashedPassword = await bcrypt.hash(temporaryPassword, 10);
 
   const existingUser = await prisma.user.findUnique({
     where: { email },
@@ -52,4 +55,6 @@ export async function addTeamMember(formData: FormData) {
   });
 
   revalidatePath("/dashboard/equipa");
+
+  return { success: true, temporaryPassword };
 }

@@ -3,6 +3,13 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 
+const nextAuthSecret = process.env.NEXTAUTH_SECRET;
+
+if (!nextAuthSecret) {
+  // Fail secure: authentication must not initialize without an explicit secret.
+  throw new Error("Missing NEXTAUTH_SECRET. Set NEXTAUTH_SECRET before starting the application.");
+}
+
 export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
@@ -80,7 +87,7 @@ export const authOptions: NextAuthOptions = {
   pages: {
     signIn: "/login",
   },
-  secret: process.env.NEXTAUTH_SECRET || "supersecret123",
+  secret: nextAuthSecret,
 };
 
 const handler = NextAuth(authOptions);
