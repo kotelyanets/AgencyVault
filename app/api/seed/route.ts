@@ -5,6 +5,11 @@ import { encrypt } from "@/lib/encryption";
 import { randomUUID } from "crypto";
 
 export async function GET() {
+  // Production safeguard: this bootstrap endpoint must never run in production.
+  if (process.env.NODE_ENV === "production") {
+    return NextResponse.json({ error: "Not Found" }, { status: 404 });
+  }
+
   try {
     let workspace = await prisma.workspace.findFirst({
       where: { name: 'Gabinete Contabilidade Silva' }
